@@ -1,0 +1,198 @@
+const caixaPerguntas = document.querySelector(".caixa-perguntas");
+const caixaAlternativas = document.querySelector(".caixa-alternativas");
+const textoResultado = document.querySelector(".texto-resultado");
+const progresso = document.querySelector(".progresso");
+const botaoReiniciar = document.querySelector(".botao-reiniciar");
+
+const perguntas = [
+    {
+        enunciado: "Assim que saiu da escola você se depara com uma nova tecnologia: um chat que responde dúvidas, gera imagens e áudios bem realistas. Qual é o seu primeiro pensamento?",
+        alternativas: [
+            {
+                texto: "Isso é assustador!",
+                afirmacao: "No começo, a chegada da IA te deixou em alerta. Você passou a observar cada novidade com cuidado, perguntando quem controla a ferramenta e o que ela pode fazer com as pessoas."
+            },
+            {
+                texto: "Isso é maravilhoso!",
+                afirmacao: "Desde o primeiro contato, você viu a IA como uma aliada poderosa. A curiosidade falou mais alto e você quis testar tudo o que aquela tecnologia conseguia criar."
+            }
+        ]
+    },
+    {
+        enunciado: "Uma professora de tecnologia pediu um trabalho sobre o uso de IA em sala de aula. Qual atitude você toma?",
+        alternativas: [
+            {
+                texto: "Usar uma ferramenta de busca com IA para encontrar informações e explicar o tema de um jeito mais fácil de entender.",
+                afirmacao: "Na escola, você aprendeu a usar a IA como apoio de pesquisa: pedia ajuda para organizar ideias, mas conferia se as informações faziam sentido."
+            },
+            {
+                texto: "Escrever o trabalho com conversas da turma, pesquisas na internet e o que você já sabia sobre o tema.",
+                afirmacao: "Você preferiu construir o trabalho com a própria cabeça e com a turma. A IA podia existir, mas o raciocínio final tinha que ser seu."
+            }
+        ]
+    },
+    {
+        enunciado: "No debate da turma sobre o impacto da IA no trabalho do futuro, como você se posiciona?",
+        alternativas: [
+            {
+                texto: "Me preocupo com quem pode perder o emprego para máquinas e defendo proteger os trabalhadores.",
+                afirmacao: "Você defendeu que o futuro do trabalho precisa de regras. Máquinas podem acelerar tarefas, mas pessoas não podem ser deixadas para trás."
+            },
+            {
+                texto: "Acredito que a IA pode criar novas oportunidades e melhorar habilidades humanas.",
+                afirmacao: "No debate, você apostou que a IA também abre portas: novas profissões, novas ferramentas e mais tempo para o que humanos fazem melhor."
+            }
+        ]
+    },
+    {
+        enunciado: "Você precisa criar uma imagem no computador que represente o que pensa sobre IA. E agora?",
+        alternativas: [
+            {
+                texto: "Criar a imagem em um programa de desenho, como o Paint.",
+                afirmacao: "Para mostrar sua opinião, você escolheu desenhar com as próprias mãos. Queria que a imagem tivesse a sua marca, não só o estilo de um gerador."
+            },
+            {
+                texto: "Criar a imagem com um gerador de imagens de IA.",
+                afirmacao: "Você usou um gerador de imagens para transformar a ideia em visual rápido. Depois ajustou detalhes até a cena parecer o futuro que imaginava."
+            }
+        ]
+    },
+    {
+        enunciado: "No trabalho em grupo de biologia, alguém colou o texto inteiro de um chat e o resultado ficou idêntico ao da IA. O que você faz?",
+        alternativas: [
+            {
+                texto: "Revisar tudo, corrigir erros e acrescentar ideias da equipe, porque toda máquina pode errar.",
+                afirmacao: "Quando a IA entrou no trabalho em grupo, você insistiu em revisar. Copiar sem pensar não era aprender — era só repetir a máquina."
+            },
+            {
+                texto: "Aceitar o texto pronto, porque escrever o comando já seria uma forma de contribuir.",
+                afirmacao: "No grupo, você viu o comando dado à IA como parte do trabalho. Ainda assim, o tempo mostrou que entregar um texto sem revisão deixa falhas evidentes."
+            }
+        ]
+    },
+    {
+        enunciado: "Uma plataforma pede seus dados pessoais para 'treinar melhor' a IA da escola. O que você decide?",
+        alternativas: [
+            {
+                texto: "Não aceito. Dados de estudantes precisam de proteção e consentimento claro.",
+                afirmacao: "Você ficou firme na privacidade: notas, fotos e conversas não deveriam virar combustível de sistema sem autorização."
+            },
+            {
+                texto: "Aceito se explicar o uso e se eu puder apagar meus dados depois.",
+                afirmacao: "Você aceitou compartilhar alguns dados só com regras claras: saber o motivo, limitar o que entra e poder pedir exclusão."
+            }
+        ]
+    },
+    {
+        enunciado: "Circula na turma um vídeo realista de uma pessoa famosa falando algo que ela nunca disse. Qual é a sua reação?",
+        alternativas: [
+            {
+                texto: "Desconfio na hora, verifico a fonte e aviso os colegas sobre deepfake.",
+                afirmacao: "Diante de um vídeo suspeito, você virou o detector da turma: checava fonte, data e contexto antes de acreditar ou compartilhar."
+            },
+            {
+                texto: "Achei impressionante o realismo, mas sei que esse tipo de conteúdo pode enganar muita gente.",
+                afirmacao: "O realismo dos vídeos gerados te impressionou, e por isso você passou a tratar qualquer conteúdo 'perfeito demais' como possível invenção."
+            }
+        ]
+    },
+    {
+        enunciado: "Um hospital da cidade testa IA para sugerir diagnósticos. Como você encara isso?",
+        alternativas: [
+            {
+                texto: "Pode ajudar o médico a perceber padrões, mas a decisão final precisa ser humana.",
+                afirmacao: "Na saúde, você imaginou a IA como lupa: aponta padrões, acelera exames, porém o cuidado e a responsabilidade continuam com profissionais."
+            },
+            {
+                texto: "Prefiro que a IA só organize exames e agendas, sem opinar no diagnóstico.",
+                afirmacao: "Você preferiu limitar a IA na medicina a tarefas de organização. Diagnóstico, para você, pede olhar humano, ética e contexto."
+            }
+        ]
+    },
+    {
+        enunciado: "Sua cidade discute uma lei para regular sistemas de IA. Qual proposta você apoia?",
+        alternativas: [
+            {
+                texto: "Exigir transparência: a pessoa deve saber quando está falando com uma IA.",
+                afirmacao: "Você apoiou leis de transparência. Se uma máquina responde, a pessoa tem o direito de saber que não é um humano do outro lado."
+            },
+            {
+                texto: "Criar regras mais rígidas para IAs usadas em escolas, bancos e serviços públicos.",
+                afirmacao: "Sua prioridade foi regular o que mais afeta a vida coletiva: escola, dinheiro e serviços públicos não podem operar no escuro."
+            }
+        ]
+    },
+    {
+        enunciado: "Você descobre que treinar modelos enormes de IA gasta muita energia. O que defende?",
+        alternativas: [
+            {
+                texto: "Usar modelos menores e mais eficientes sempre que forem suficientes.",
+                afirmacao: "Sobre o planeta, você escolheu eficiência: nem toda tarefa precisa do maior modelo do mundo se um sistema menor resolve."
+            },
+            {
+                texto: "Cobrar que empresas publiquem o impacto ambiental dos sistemas que vendem.",
+                afirmacao: "Você exigiu transparência ambiental. Se a IA consome energia de uma cidade, isso precisa aparecer junto com o anúncio da novidade."
+            }
+        ]
+    },
+    {
+        enunciado: "Em 2049, escolas podem ter tutores de IA 24 horas. Qual futuro você escolhe para a educação?",
+        alternativas: [
+            {
+                texto: "A IA ajuda a estudar no ritmo de cada aluno, e professores guiam debates, ética e projetos.",
+                afirmacao: "No fim, você desenhou uma escola híbrida: a IA explica quantas vezes for preciso, e professores cuidam do pensamento crítico, da ética e da convivência."
+            },
+            {
+                texto: "A IA pode dar dicas, mas provas, trabalhos e conversas importantes continuam com gente de verdade.",
+                afirmacao: "Você quis guardar o coração da escola para humanos. A IA podia apontar caminhos, mas aprender de verdade ainda pedia conversa, dúvida e presença."
+            }
+        ]
+    }
+];
+
+let atual = 0;
+let historiaFinal = "";
+
+function mostraPergunta() {
+    if (atual >= perguntas.length) {
+        mostraResultado();
+        return;
+    }
+
+    const perguntaAtual = perguntas[atual];
+    progresso.textContent = `pergunta ${atual + 1} de ${perguntas.length}`;
+    caixaPerguntas.textContent = perguntaAtual.enunciado;
+    caixaAlternativas.innerHTML = "";
+    textoResultado.textContent = "";
+    botaoReiniciar.style.display = "none";
+
+    perguntaAtual.alternativas.forEach((alternativa) => {
+        const botao = document.createElement("button");
+        botao.textContent = alternativa.texto;
+        botao.addEventListener("click", () => respostaSelecionada(alternativa));
+        caixaAlternativas.appendChild(botao);
+    });
+}
+
+function respostaSelecionada(opcaoSelecionada) {
+    historiaFinal += opcaoSelecionada.afirmacao + " ";
+    atual += 1;
+    mostraPergunta();
+}
+
+function mostraResultado() {
+    progresso.textContent = "transmissão concluída";
+    caixaPerguntas.textContent = "Em 2049, o futuro que você ajudou a escrever ficou assim:";
+    textoResultado.textContent = historiaFinal.trim();
+    caixaAlternativas.innerHTML = "";
+    botaoReiniciar.style.display = "inline-block";
+}
+
+function reiniciarQuestionario() {
+    atual = 0;
+    historiaFinal = "";
+    mostraPergunta();
+}
+
+botaoReiniciar.addEventListener("click", reiniciarQuestionario);
+mostraPergunta();
